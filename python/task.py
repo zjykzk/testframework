@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 # Author : zenk
 # 2014-07-14 17:11
+import types
+
 from schedule_event import EventCall
 
 class Task(object):
     taskid = 0
-    def __init__(self,target):
+    def __init__(self, target):
         Task.taskid += 1
         # Task ID
         self.tid = Task.taskid

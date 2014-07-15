@@ -17,22 +17,22 @@ class Scheduler(object):
         self.read_waiting = {}
         self.write_waiting = {}
         
-    def new(self,target):
+    def new(self, target):
         newtask = Task(target)
         self.taskmap[newtask.tid] = newtask
         self.schedule(newtask)
         return newtask.tid
 
-    def exit(self,task):
+    def exit(self, task):
         print "Task %d terminated" % task.tid
         del self.taskmap[task.tid]
         # Notify other tasks waiting for exit
-        for task in self.exit_waiting.pop(task.tid,[]):
+        for task in self.exit_waiting.pop(task.tid, []):
             self.schedule(task)
 
-    def waitforexit(self,task,waittid):
+    def waitforexit(self, task, waittid):
         if waittid in self.taskmap:
-            self.exit_waiting.setdefault(waittid,[]).append(task)
+            self.exit_waiting.setdefault(waittid, []).append(task)
             return True
         else:
             return False
@@ -41,12 +41,12 @@ class Scheduler(object):
     def waitforread(self, task, fd):
         self.read_waiting[fd] = task
 
-    def waitforwrite(self,task,fd):
+    def waitforwrite(self, task, fd):
         self.write_waiting[fd] = task
 
     def iopoll(self, timeout):
         if self.read_waiting or self.write_waiting:
-           r,w,e = select.select(self.read_waiting,
+           r, w, e = select.select(self.read_waiting,
                                  self.write_waiting, [], timeout)
            for fd in r: self.schedule(self.read_waiting.pop(fd))
            for fd in w: self.schedule(self.write_waiting.pop(fd))
@@ -59,7 +59,7 @@ class Scheduler(object):
                 self.iopoll(0)
             yield
 
-    def schedule(self,task):
+    def schedule(self, task):
         self.ready.put(task)
 
     def mainloop(self):

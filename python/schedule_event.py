@@ -14,7 +14,7 @@ class GetTid(EventCall):
 
 # Create a new task
 class NewTask(EventCall):
-    def __init__(self,target):
+    def __init__(self, target):
         self.target = target
     def handle(self):
         tid = self.sched.new(self.target)
@@ -23,7 +23,7 @@ class NewTask(EventCall):
 
 # Kill a task
 class KillTask(EventCall):
-    def __init__(self,tid):
+    def __init__(self, tid):
         self.tid = tid
     def handle(self):
         task = self.sched.taskmap.get(self.tid,None)
@@ -36,7 +36,7 @@ class KillTask(EventCall):
 
 # Wait for a task to exit
 class WaitTask(EventCall):
-    def __init__(self,tid):
+    def __init__(self, tid):
         self.tid = tid
     def handle(self):
         result = self.sched.waitforexit(self.task,self.tid)
@@ -48,7 +48,7 @@ class WaitTask(EventCall):
 
 # Wait for reading
 class ReadWait(EventCall):
-    def __init__(self,f):
+    def __init__(self, f):
         self.f = f
     def handle(self):
         fd = self.f.fileno()
@@ -56,11 +56,11 @@ class ReadWait(EventCall):
 
 # Wait for writing
 class WriteWait(EventCall):
-    def __init__(self,f):
+    def __init__(self, f):
         self.f = f
     def handle(self):
         fd = self.f.fileno()
-        self.sched.waitforwrite(self.task,fd)
+        self.sched.waitforwrite(self.task, fd)
 
 def Accept(sock):
     yield ReadWait(sock)
