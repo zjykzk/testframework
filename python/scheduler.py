@@ -46,13 +46,13 @@ class Scheduler(object):
 
     def iopoll(self, timeout):
         if self.read_waiting or self.write_waiting:
-           r, w, e = select.select(self.read_waiting,
-                                 self.write_waiting, [], timeout)
-           for fd in r: self.schedule(self.read_waiting.pop(fd))
-           for fd in w: self.schedule(self.write_waiting.pop(fd))
+            r, w, e = select.select(self.read_waiting,
+                                     self.write_waiting, [], timeout)
+            for fd in r: self.schedule(self.read_waiting.pop(fd))
+            for fd in w: self.schedule(self.write_waiting.pop(fd))
 
     def iotask(self):
-        while True:
+        while not self.ready.empty() or self.read_waiting or self.write_waiting:
             if self.ready.empty():
                 self.iopoll(None)
             else:

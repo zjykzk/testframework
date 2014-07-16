@@ -9,15 +9,24 @@ import schedule_event
 
 class Client(object):
     def __init__(self, addr, codec):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(addr)
-        self.sock = s
         self.readBuf = ''
         self.writeBuf = ''
         self.codec = codec
+        self.addr = addr
+
+        self.connect()
 
     def isConnect(self):
         return True if self.sock else False
+
+    def connect(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(self.addr)
+        self.sock = s
+
+    def reconnect(self):
+        yield schedule_event.ConnectWait(self.sock)
+        self.connect()
 
     # TODO set sock to non-block
     def request(self, obj):

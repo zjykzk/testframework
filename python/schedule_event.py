@@ -62,6 +62,9 @@ class WriteWait(EventCall):
         fd = self.f.fileno()
         self.sched.waitforwrite(self.task, fd)
 
+class ConnectWait(EventCall):
+  pass
+
 def Accept(sock):
     yield ReadWait(sock)
     yield sock.accept()

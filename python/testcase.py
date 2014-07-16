@@ -5,8 +5,8 @@ import client
 import config
 
 class TestCase(client.Client):
-    def __init__(self):
-        super(TestCase, self).__init__(config.addr, config.codec)
+    def __init__(self, addr, codec):
+        super(TestCase, self).__init__(addr or config.addr, codec or config.codec)
 
     def test(self):
         pass

@@ -21,6 +21,10 @@ class Task(object):
         # Call stack
         self.stack = []            
 
+    def __str__(self):
+        return "tid:%d,target:%s,sendval:%s,stack:%s" % (self.tid, self.target, 
+            self.sendval, self.stack)
+
     # Run a task until it hits the next yield statement
     def run(self):
         while True:

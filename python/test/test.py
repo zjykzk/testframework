@@ -10,7 +10,7 @@ import testcase
 
 class EchoTest(testcase.TestCase):
     def __init__(self, name):
-        super(EchoTest, self).__init__()
+        super(EchoTest, self).__init__(None, None)
         self.name = name
 
     def setup(self):
