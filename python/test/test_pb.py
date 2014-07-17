@@ -37,9 +37,9 @@ class EchoTest(testcase.TestCase):
 
 if __name__ == "__main__":
     sch = scheduler.Scheduler()
-    e = EchoTest('')
-    e.a = 1
-    sch.new(testcase.driveTest(EchoTest("echo1"), True))
+    for i in xrange(1000):
+        sch.new(testcase.driveTest(EchoTest("echo1%s" % i), True))
+    sch.new(testcase.driveTest(EchoTest("echo1"), False))
     sch.new(testcase.driveTest(EchoTest("echo2"), False))
     sch.new(testcase.driveTest(EchoTest("echo3"), False))
     sch.mainloop()

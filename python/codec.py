@@ -43,11 +43,11 @@ class PbCodec(object):
     def decode(self, data):
         length = len(data)
         if length < PbCodec.headerSize:
-            return None
+            return (None, 0)
         (dataLen,) = self.lenUnpacker.unpack(data[:PbCodec.packetLengthSize])
 
         if dataLen > length:
-            return None
+            return (None, 0)
 
         (msgId,) = self.idUnpacker.unpack(data[PbCodec.packetLengthSize:PbCodec.headerSize])
         return _pbref.ParseMessage(self.messageDescs[msgId], data[PbCodec.headerSize:]), dataLen
