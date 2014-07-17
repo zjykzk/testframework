@@ -30,14 +30,15 @@ class PbCodec(object):
     def __init__(self, messageDescs, descMessageIds):
         self.messageDescs = messageDescs
         self.descMessageIds = descMessageIds
+        self.headerPacker = struct.Struct(">hh")
         self.lenUnpacker = struct.Struct(">h")
-        self.idUnpacker = struct.Struct(">h")
+        self.idUnpacker = self.lenUnpacker
 
     def encode(self, obj):
         bytes = obj.SerializeToString()
         byteCount = len(bytes)
         length = PbCodec.headerSize + byteCount
-        return struct.pack(">hh%ds" % byteCount, length, self.descMessageIds[obj.DESCRIPTOR], bytes)
+        return self.headerPacker.pack(length, self.descMessageIds[obj.DESCRIPTOR]) + bytes
 
     def decode(self, data):
         length = len(data)
