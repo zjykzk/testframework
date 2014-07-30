@@ -5,6 +5,6 @@
 import codec
 
 # the address to connect
-addr = ("localhost", 8080) 
+addr = ("localhost", 8091) 
 
 codec = codec.DefaultCodec()
