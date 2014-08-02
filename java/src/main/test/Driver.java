@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import test.stati.Stati;
 import test.work.SnsWorker;
+import test.work.TestNginxWorker;
 import test.work.Worker;
 
 
@@ -22,7 +23,8 @@ public class Driver {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		testGame(args);
+//		testGame(args);
+		testNginx(args);
 	}
 	
 	static void testNginx(String[] args) throws Exception {
@@ -31,7 +33,7 @@ public class Driver {
 		
 		Stati stati = new Stati();
 		CountDownLatch cdLatch = new CountDownLatch(workerCount);
-		Worker worker = new Worker(stati, cdLatch, args[2], args[3]);
+		Worker worker = new TestNginxWorker(stati, cdLatch, args[2], args[3]);
 		System.out.println("start to test with " + workerCount + " workers, and test " + 
 				testTimeMin + " minutes");
 		List<Thread> workers = new ArrayList<>(workerCount);
@@ -52,6 +54,7 @@ total request count:542499, total failed request count:0, total request cost tim
 		 */
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testGame(String[] args) throws Exception {
 		int workerCount = Integer.parseInt(args[0]);
 		int testTimeMin = Integer.parseInt(args[1]);

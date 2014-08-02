@@ -12,7 +12,7 @@ public class HttpUtils {
 	private HttpUtils() {
 	}
 	
-	public static byte[] httpReq(String urlstr, byte[] datas) throws Exception {
+	public static byte[] httpPost(String urlstr, byte[] datas) throws Exception {
 		URL url = new URL(urlstr);
 		HttpURLConnection httpconnection = (HttpURLConnection) url
 				.openConnection();
